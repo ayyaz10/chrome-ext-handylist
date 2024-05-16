@@ -9,17 +9,38 @@ body {
   color: white;
 }
 
-.tasklistcontainer {
-  max-width: 300px;
-  padding: 10px;
-}
-.taskcard {
+/* Share styles */
+.task-item {
   background-color: #1d1f21;
+  padding: 10px;
   border-radius: 10px;
 }
 
+.taskcard__actionbtn {
+  font-size: 14px;
+  font-weight: 600;
+  color: #ffffff;
+  text-decoration: none;
+  background-color: #00ad45;
+  padding: 6px 18px;
+  display: inline-block;
+  border-radius: 4px;
+  margin-left: auto;
+  margin-top: 10px;
+}
+/* **** */
+
+.tasklistcontainer {
+  max-width: 300px;
+}
+.taskcard {
+  display: flex;
+  flex-direction: column;
+}
+
 .taskcard__card-text {
-  padding: 10px;
+  display: flex;
+  flex-direction: column;
 }
 
 .taskcard__task-name {
@@ -52,22 +73,40 @@ body {
   color: #4f5152;
 }
 
+/* Add task */
+
 .addtask {
-  background-color: #070606;
+  /* background-color: #070606; */
   width: 100%;
   margin-top: 10px;
   border-radius: 10px;
 }
 
-.addtask__button {
+.addtask__createtaskbtn {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
+  border-radius: 4px;
   padding: 10px 0 10px 0px;
   cursor: pointer;
+  background-color: #000000;
 }
 
 .addtask__btn-text {
   font-size: 15px;
+}
+
+.addTask__insertcard {
+  display: flex;
+  flex-direction: column;
+}
+
+.addTask__inputcontainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.addTask__textinput {
+  padding: 6px;
 }

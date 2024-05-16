@@ -1,6 +1,6 @@
 import React from 'react';
 import TaskCard from './component/TaskCard';
-import AddTask from './component/AddTask';
+// import AddTask from './component/AddTask';
 import './NewTab.css';
 function NewTab() {
   function getTimeInSecondsSinceEpoch() {
@@ -14,7 +14,6 @@ function NewTab() {
   return (
     <div className="tasklistcontainer">
       <TaskCard />
-      <AddTask />
     </div>
   );
 }

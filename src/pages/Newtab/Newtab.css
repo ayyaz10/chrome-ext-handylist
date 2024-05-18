@@ -105,8 +105,14 @@ body {
 .addTask__inputcontainer {
   display: flex;
   flex-direction: column;
+  gap: 4px;
+  margin-bottom: 10px;
 }
 
 .addTask__textinput {
+  background-color: #4f5152;
+  color: #ffffff;
   padding: 6px;
+  border: none;
+  border-radius: 2px;
 }

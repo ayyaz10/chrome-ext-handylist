@@ -2,18 +2,18 @@ import React, { useState } from 'react';
 import { X } from 'lucide-react';
 import AddTaskButton from './AddTaskButton';
 function AddTask() {
-  const [showCreateTask, setShowCreateTask] = useState(false);
+  const [show, setShow] = useState(false);
 
   function handleShowAddTask() {
-    setShowCreateTask(true);
+    setShow(true);
   }
-  function handleCloseAddTask() {
-    setShowCreateTask(false);
+  function handleHideAddTask() {
+    setShow(false);
   }
   return (
     <div className="addtask">
       <AddTaskButton onClick={handleShowAddTask} />
-      {showCreateTask && (
+      {show && (
         <div className="addTask__insertcard task-item">
           <form action="">
             <div className="addTask__inputcontainer">
@@ -45,7 +45,7 @@ function AddTask() {
               />
             </div>
             <div className="taskcard__actionbtncontainer">
-              <X className="taskcard__closebtn" onClick={handleCloseAddTask} />
+              <X className="taskcard__closebtn" onClick={handleHideAddTask} />
               <a href="#" className="taskcard__actionbtn">
                 Add Task
               </a>

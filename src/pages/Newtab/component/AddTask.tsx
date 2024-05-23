@@ -1,19 +1,28 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import AddTaskButton from './AddTaskButton';
-function AddTask() {
-  const [show, setShow] = useState(false);
 
-  function handleShowAddTask() {
-    setShow(true);
-  }
+function AddTask({ addTaskShow }) {
+  const [showTask, setShowTask] = useState(false);
+  const [editMode, setEditMode] = useState(true);
   function handleHideAddTask() {
-    setShow(false);
+    setShowTask(false);
   }
+  function handleShowAddTask() {
+    setShowTask(true);
+  }
+
+  useEffect(() => {
+    if (addTaskShow) {
+      setShowTask(true);
+      setEditMode(false);
+    }
+  }, [addTaskShow]);
+
   return (
     <div className="addtask">
-      <AddTaskButton onClick={handleShowAddTask} />
-      {show && (
+      {editMode && <AddTaskButton onClick={handleShowAddTask} />}
+      {showTask && (
         <div className="addTask__insertcard task-item">
           <form action="">
             <div className="addTask__inputcontainer">
@@ -45,9 +54,11 @@ function AddTask() {
               />
             </div>
             <div className="taskcard__actionbtncontainer">
-              <X className="taskcard__closebtn" onClick={handleHideAddTask} />
+              {editMode && (
+                <X className="taskcard__closebtn" onClick={handleHideAddTask} />
+              )}
               <a href="#" className="taskcard__actionbtn">
-                Add Task
+                {editMode ? 'Add Task' : 'Update Task'}
               </a>
             </div>
           </form>

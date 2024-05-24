@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Ellipsis, X } from 'lucide-react';
+import React, { useState, useEffect, useRef } from "react";
+import { Ellipsis, X } from "lucide-react";
 
-import AddTask from './AddTask';
+import AddTask from "./AddTask";
+import EditTask from "./EditTask";
 
 function TaskCard() {
   const [menuShow, setMenuShow] = useState(false);
-  const [editMenuShow, setEditMenuShow] = useState(true);
+  const [editMenuShow, setEditMenuShow] = useState(false);
 
   const menuRef = useRef(null);
 
@@ -20,8 +21,13 @@ function TaskCard() {
   }
 
   function showEditTask() {
-    console.log('false');
-    setEditMenuShow(false);
+    setMenuShow(false);
+    setEditMenuShow(true);
+  }
+
+  function showTaskCard(data) {
+    // console.log(data);
+    setEditMenuShow(data);
   }
 
   useEffect(() => {
@@ -31,16 +37,16 @@ function TaskCard() {
       }
     }
 
-    document.addEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
 
     return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
   return (
     <div>
-      {editMenuShow ? (
+      {!editMenuShow ? (
         <div className="taskcard">
           <div className="taskcard__card-text task-item">
             <header className="taskcard__header">
@@ -101,7 +107,9 @@ function TaskCard() {
           <AddTask />
         </div>
       ) : (
-        <AddTask addTaskShow={true} />
+        <div>
+          <EditTask onShowTaskCard={showTaskCard} />
+        </div>
       )}
     </div>
   );

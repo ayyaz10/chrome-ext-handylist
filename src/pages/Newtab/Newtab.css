@@ -42,7 +42,8 @@ body {
   max-width: 1080px;
   margin: 0 auto;
 }
-.taskcard {
+.taskcard,
+.addtask {
   display: flex;
   flex-direction: column;
   max-width: 300px;

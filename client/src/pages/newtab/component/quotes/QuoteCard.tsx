@@ -38,7 +38,9 @@ function QuoteCard() {
       }
     };
 
+
     // fetchQuotes();
+
 
     function handleClickOutside(e) {
       menuRefs.current.forEach((menuRef, index) => {

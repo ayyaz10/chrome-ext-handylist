@@ -48,9 +48,9 @@ function TaskCard() {
     <div>
       {!editMenuShow ? (
         <div className="taskcard flex flex-col max-w-[300px]">
-          <div className="flex flex-col p-4 rounded-md bg-[#1d1f21]">
+          <div className="flex flex-col p-4 rounded-md bg-[#101010]">
             <header className="flex flex-col relative">
-              <p className="text-sm font-semibold text-[#6c6d6e]">Task Name</p>
+              <p className="text-sm font-semibold text-gray-900">Task Name</p>
               <div className="ml-auto absolute right-0">
                 <Ellipsis className="cursor-pointer" onClick={handleShowMenu} />
                 {menuShow && (

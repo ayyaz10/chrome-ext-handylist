@@ -9,6 +9,8 @@ const container = document.getElementById("app-container");
 const root = createRoot(container); // createRoot(container!) if you use TypeScript
 root.render(
   <Router>
-    <NewTab />
+    <div className="dark">
+      <NewTab />
+    </div>
   </Router>
 );

@@ -2,8 +2,8 @@ import React from "react";
 
 const Navbar = () => {
   return (
-    <div className="max-w-[380px] m-auto">
-      <nav className="flex justify-between text-lg font-semibold">
+    <div className="mt-10 mb-3">
+      <nav className="flex gap-4 text-lg font-semibold text-text">
         <a href="#/">
           <li className="list-none">Tasks</li>
         </a>

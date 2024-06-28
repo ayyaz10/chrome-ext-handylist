@@ -3,7 +3,12 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        grape: "rgba(114, 35, 205",
+        background: "rgba(var(--background))",
+        border: "rgba(var(--border))",
+        primary: "rgba(var(--primary))",
+        secondary: "rgba(var(--secondary))",
+        text: "rgba(var(--text))",
+        hoverText: "rgba(var(--hover-text))",
       },
       animation: {
         "spin-slow": "spin 20s linear infinite",

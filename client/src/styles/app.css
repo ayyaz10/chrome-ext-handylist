@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+.dark {
+  --background: 0, 0, 0;
+  --border: 122, 122, 122;
+  --primary: 81, 151, 92;
+  --secondary: 41, 41, 41;
+  --text: 163, 163, 163;
+  --hover-text: 255, 255, 255;
+}
+
 body {
   @apply bg-gray-200;
 }

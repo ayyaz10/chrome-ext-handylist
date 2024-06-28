@@ -45,34 +45,37 @@ function TaskCard() {
   }, []);
 
   return (
-    <div>
+    <div className="mt-3">
       {!editMenuShow ? (
         <div className="taskcard flex flex-col max-w-[300px]">
-          <div className="flex flex-col p-4 rounded-md bg-[#101010]">
+          <div className="flex flex-col p-4 rounded-md bg-secondary">
             <header className="flex flex-col relative">
-              <p className="text-sm font-semibold text-gray-900">Task Name</p>
+              <p className="text-sm font-semibold text-text">Task Name</p>
               <div className="ml-auto absolute right-0">
-                <Ellipsis className="cursor-pointer" onClick={handleShowMenu} />
+                <Ellipsis
+                  className="cursor-pointer text-text"
+                  onClick={handleShowMenu}
+                />
                 {menuShow && (
                   <div
-                    className="custom-card-menu-style absolute -right-44 top-0 text-zinc-500 bg-zinc-900"
+                    className="custom-card-menu-style absolute -right-44 top-0 text-text bg-secondary p-2 rounded-lg"
                     ref={menuRef}
                   >
                     <header className="w-[250px] relative text-xs pb-2">
                       <h2 className="text-center">List Actions</h2>
                       <X
                         onClick={handleHideMenu}
-                        className="absolute top-[0] right-[8px] w-[16px] h-[16px] cursor-pointer hover:bg-zinc-800 hover:rounded-sm"
+                        className="absolute top-[0] right-0 w-[16px] h-[16px] cursor-pointer hover:bg-hoverBackground hover:rounded-sm"
                       />
                     </header>
                     <div className="flex flex-col">
                       <li
-                        className="text-xs font-semibold text-zinc-500 cursor-pointer py-1 px-3 list-none hover:bg-zinc-800"
+                        className="text-xs font-semibold text-text cursor-pointer list-none hover:bg-hoverBackground rounded-sm py-1 px-1"
                         onClick={showEditTask}
                       >
                         Edit
                       </li>
-                      <li className="text-xs font-semibold text-zinc-500 cursor-pointer py-1 px-3 list-none hover:bg-zinc-800">
+                      <li className="text-xs font-semibold text-text cursor-pointer list-none hover:bg-hoverBackground rounded-sm py-1 px-1">
                         Delete
                       </li>
                     </div>
@@ -86,16 +89,16 @@ function TaskCard() {
                 src={imgUrl}
                 alt=""
               />
-              <p className="text-sm font-semibold text-[#6c6d6]">Ayyaz</p>
+              <p className="text-sm font-semibold text-text">Ayyaz</p>
             </div>
-            <p className="taskcard__task-description">
+            <p className="taskcard__task-description text-text">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores
               voluptas minima debitis nesciunt ipsum asperiores expedita sint
               eos sapiente excepturi! Perferendis necessitatibus quaerat, id
               eveniet non accusantium in saepe ab.
             </p>
             <a
-              className="taskcard__actionbtn"
+              className="taskcard__actionbtn self-end text-sm font-semibold bg-primary text-white text-center block w-lg mt-4 py-2 px-6 rounded-sm"
               href="mailto:ayyazahmad009@gmail.comtext=hello ayyaz"
               target="_blank"
               rel="noreferrer"

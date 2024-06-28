@@ -9,6 +9,7 @@ module.exports = {
         secondary: "rgba(var(--secondary))",
         text: "rgba(var(--text))",
         hoverText: "rgba(var(--hover-text))",
+        hoverBackground: "rgba(var(--hover-background))",
       },
       animation: {
         "spin-slow": "spin 20s linear infinite",

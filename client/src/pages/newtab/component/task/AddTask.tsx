@@ -31,7 +31,7 @@ function AddTask({ isEditing, onShowTaskCard }) {
       {!isEditing && <AddTaskButton onClick={handleShowAddTask} />}
       {/* <AddTaskButton onClick={handleShowAddTask} /> */}
       {showAddTask && (
-        <div className="addTask__insertcard task-item">
+        <div className="addTask__insertcard flex task-item">
           <form action="">
             <div className="addTask__inputcontainer">
               <input

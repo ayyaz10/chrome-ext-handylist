@@ -1,13 +1,13 @@
 import React from "react";
 import { Plus } from "lucide-react";
-function AddTaskButton({ onClick }) {
+function AddTaskButton({ handleShowAddTask }) {
   return (
     <div
-      className="addtask__createtaskbtn flex gap-2 justify-center items-center bg-primary text-white w-full text-sm px-2 py-2 mt-3 rounded-sm"
-      onClick={onClick}
+      className="addtask__createtaskbtn font-semibold text-center flex gap-2 justify-center items-center bg-primary text-white text-sm px-2 py-2 mt-3 rounded-lg cursor-pointer"
+      onClick={handleShowAddTask}
     >
-      <Plus width={18} className="addtask__icon" />
-      <p className="addtask__btn-text">Add a task</p>
+      <Plus width={18} className="addtask__icon font-semibold" />
+      <p className="addtask__btn-text font-semibold">Add a task</p>
     </div>
   );
 }

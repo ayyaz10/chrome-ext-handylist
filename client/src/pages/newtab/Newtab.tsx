@@ -12,7 +12,7 @@ import Aside from "./component/Aside";
 
 const Newtab = () => {
   return (
-    <div className="bg-background h-screen">
+    <div className="bg-background">
       <div className="flex gap-2">
         <div className="w-[20%] px-8 py-2 h-screen border-r">
           <Aside />

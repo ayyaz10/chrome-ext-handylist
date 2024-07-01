@@ -98,7 +98,7 @@ function TaskCard() {
               eveniet non accusantium in saepe ab.
             </p>
             <a
-              className="taskcard__actionbtn self-end text-sm font-semibold bg-primary text-white text-center block w-lg mt-4 py-2 px-6 rounded-sm"
+              className="taskcard__actionbtn self-end text-sm font-semibold bg-primary text-white text-center block w-lg mt-4 py-2 px-6 rounded-lg"
               href="mailto:ayyazahmad009@gmail.comtext=hello ayyaz"
               target="_blank"
               rel="noreferrer"

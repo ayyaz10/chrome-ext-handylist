@@ -2,7 +2,7 @@ import React from "react";
 
 const Aside = () => {
   return (
-    <div>
+    <div className="">
       <input
         className="bg-background text-text text-sm px-2 py-2"
         type="text"

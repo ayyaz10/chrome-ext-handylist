@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Ellipsis, X } from "lucide-react";
 
-import AddTask from "@pages/newtab/component/task/AddTask";
-import EditTask from "@pages/newtab/component/task/EditTask";
+import AddTask from "@pages/newtab/component/maincontent/task/AddTask";
+import EditTask from "@pages/newtab/component/maincontent/task/EditTask";
 
 function TaskCard() {
   const [menuShow, setMenuShow] = useState(false);

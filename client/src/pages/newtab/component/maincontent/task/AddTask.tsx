@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { X } from "lucide-react";
-import AddTaskButton from "@pages/newtab/component/task/AddTaskButton";
+import AddTaskButton from "@pages/newtab/component/maincontent/task/AddTaskButton";
 
 function AddTask({ isEditing, onShowTaskCard }) {
   const [showAddTask, setShowAddTask] = useState(false);

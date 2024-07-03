@@ -1,10 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, SyntheticEvent } from "react";
 import { X } from "lucide-react";
 import AddTaskButton from "@pages/newtab/component/maincontent/task/AddTaskButton";
 
 function AddTask({ isEditing, onShowTaskCard }) {
   const [showAddTask, setShowAddTask] = useState(false);
   const [editMode, setEditMode] = useState(false);
+  // form inputs
+  const [taskName, setTaskName] = useState("");
+  const [receiverName, setReceiverName] = useState("");
+  const [content, setContent] = useState("");
+  const [contactDetail, setContactDetail] = useState("");
 
   // Hide add task
   function handleHideAddTask() {
@@ -17,6 +22,22 @@ function AddTask({ isEditing, onShowTaskCard }) {
   // To show add task
   function handleShowAddTask() {
     setShowAddTask(true);
+  }
+
+  function handleSubmit(e: SyntheticEvent) {
+    e.preventDefault();
+    const target = e.target as HTMLFormElement;
+    const formData = {
+      taskName,
+      receiverName,
+      content,
+      contactDetail,
+    };
+
+    sendData(formData);
+  }
+  function sendData(formData) {
+    console.log(formData);
   }
 
   useEffect(() => {
@@ -32,16 +53,28 @@ function AddTask({ isEditing, onShowTaskCard }) {
       {/* <AddTaskButton onClick={handleShowAddTask} /> */}
       {showAddTask && (
         <div className="addTask__insertcard task-item mt-4">
-          <form action="" className="flex flex-col gap-2">
+          <form
+            action=""
+            className="flex flex-col gap-2"
+            onSubmit={handleSubmit}
+          >
             <div className="addTask__inputcontainer w-full">
               <input
+                onChange={(e) => {
+                  // console.log(e.target.value);
+                  setTaskName(e.target.value);
+                }}
                 className="addTask__textinput w-full text-sm bg-secondary border-none text-text px-2 py-3 rounded-md"
                 type="text"
                 placeholder="Task Name"
+                required
               />
             </div>
             <div className="addTask__inputcontainer">
               <input
+                onChange={(e) => {
+                  setReceiverName(e.target.value);
+                }}
                 className="addTask__textinput w-full text-sm bg-secondary border-none text-text px-2 py-3 rounded-md"
                 type="text"
                 placeholder="Receiver Name"
@@ -49,6 +82,9 @@ function AddTask({ isEditing, onShowTaskCard }) {
             </div>
             <div className="addTask__inputcontainer">
               <textarea
+                onChange={(e) => {
+                  setContent(e.target.value);
+                }}
                 className="addTask__textinput w-full text-sm bg-secondary border-none text-text px-2 py-3 rounded-md"
                 placeholder="Content"
                 rows={4}
@@ -56,6 +92,9 @@ function AddTask({ isEditing, onShowTaskCard }) {
             </div>
             <div className="addTask__inputcontainer">
               <input
+                onChange={(e) => {
+                  setContactDetail(e.target.value);
+                }}
                 className="addTask__textinput w-full text-sm bg-secondary border-none text-text px-2 py-3 rounded-md"
                 type="text"
                 placeholder="Contact detail"
@@ -70,12 +109,9 @@ function AddTask({ isEditing, onShowTaskCard }) {
                 onClick={handleHideAddTask}
               />
               {/* )} */}
-              <a
-                href="#"
-                className="taskcard__actionbtn text-sm font-semibold bg-primary text-white text-center block w-lg py-2 px-6 rounded-md"
-              >
+              <button className="taskcard__actionbtn text-sm font-semibold bg-primary text-white text-center block w-lg py-2 px-6 rounded-md">
                 {editMode ? "Update Task" : "Add Task"}
-              </a>
+              </button>
             </div>
           </form>
         </div>

@@ -2,6 +2,9 @@ import React, { useState, useEffect, SyntheticEvent } from "react";
 import { X } from "lucide-react";
 import AddTaskButton from "@pages/newtab/component/maincontent/task/AddTaskButton";
 
+import axios from "@src/apis/tasks";
+import useAxiosFunction from "@src/hooks/useAxiosFunction";
+
 function AddTask({ isEditing, onShowTaskCard }) {
   const [showAddTask, setShowAddTask] = useState(false);
   const [editMode, setEditMode] = useState(false);
@@ -10,6 +13,16 @@ function AddTask({ isEditing, onShowTaskCard }) {
   const [receiverName, setReceiverName] = useState("");
   const [content, setContent] = useState("");
   const [contactDetail, setContactDetail] = useState("");
+
+  const [tasks, error, loading, axiosFetch] = useAxiosFunction();
+
+  // const sendData = (formData) => {
+  //   axiosFetch({
+  //     axiosInstance: axios,
+  //     method: "POST",
+  //     url: "/api/addtask",
+  //   });
+  // };
 
   // Hide add task
   function handleHideAddTask() {
@@ -34,11 +47,16 @@ function AddTask({ isEditing, onShowTaskCard }) {
       contactDetail,
     };
 
-    sendData(formData);
+    axiosFetch({
+      axiosInstance: axios,
+      method: "POST",
+      url: "/api/addtask",
+      requestConfig: formData,
+    });
   }
-  function sendData(formData) {
-    console.log(formData);
-  }
+  // function sendData(formData) {
+  //   axios.post;
+  // }
 
   useEffect(() => {
     if (isEditing) {

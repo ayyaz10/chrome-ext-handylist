@@ -1,16 +1,62 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Ellipsis, X } from "lucide-react";
-
+import { Blocks } from "react-loader-spinner";
 import AddTask from "@pages/newtab/component/maincontent/task/AddTask";
 import EditTask from "@pages/newtab/component/maincontent/task/EditTask";
 
-function TaskCard() {
+function TaskCard({
+  cardTitle,
+  name,
+  button,
+  addNewButton,
+  addButton,
+  updateButton,
+  cardProfileImage,
+  isContactDetail,
+}) {
   const [menuShow, setMenuShow] = useState(false);
   const [editMenuShow, setEditMenuShow] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [tasks, setTasks] = useState([]);
+  const [fetchError, setFetchError] = useState(null);
 
   const menuRef = useRef(null);
 
   const imgUrl = `https://www.robohash.org/s?set=set2&size=100x100`;
+
+  const baseUrl = "http://localhost:5000/api/tasks"; // Update to port 6000
+
+  useEffect(() => {
+    setLoading(true);
+    const fetchTasks = async () => {
+      try {
+        const response = await fetch(baseUrl, {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!response.ok) {
+          setFetchError("Could not fetch the tasks");
+          setTasks([]);
+        } else {
+          const data = await response.json();
+          setTasks(data);
+          console.log(data);
+          setFetchError(null);
+        }
+      } catch (error) {
+        console.error("Error fetching tasks", error);
+        setFetchError("Could not fetch the tasks");
+        setTasks([]);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTasks();
+  }, []);
 
   function handleShowMenu() {
     setMenuShow(true);
@@ -26,7 +72,6 @@ function TaskCard() {
   }
 
   function showTaskCard(data) {
-    // console.log(data);
     setEditMenuShow(data);
   }
 
@@ -46,11 +91,29 @@ function TaskCard() {
 
   return (
     <div className="mt-3">
+      {tasks.map((task) => (
+        <div>{task}</div>
+      ))}
+      {loading && (
+        <p className="flex justify-center">
+          <Blocks
+            height="30"
+            width="30"
+            color="#4fa94d"
+            ariaLabel="blocks-loading"
+            wrapperStyle={{}}
+            wrapperClass="blocks-wrapper"
+            visible={true}
+          />
+        </p>
+      )}
+      {fetchError && <p className="text-red-500">{fetchError}</p>}
+
       {!editMenuShow ? (
         <div className="taskcard flex flex-col max-w-[300px]">
           <div className="flex flex-col p-4 rounded-md bg-secondary">
             <header className="flex flex-col relative">
-              <p className="text-sm font-semibold text-text">Task Name</p>
+              <p className="text-sm font-semibold text-text">{cardTitle}</p>
               <div className="ml-auto absolute right-0">
                 <Ellipsis
                   className="cursor-pointer text-text"
@@ -84,12 +147,14 @@ function TaskCard() {
               </div>
             </header>
             <div className="taskcard__task-profile-container flex items-center gap-2 my-2">
-              <img
-                className="w-[30px] h-[30px] object-cover rounded-full"
-                src={imgUrl}
-                alt=""
-              />
-              <p className="text-sm font-semibold text-text">Ayyaz</p>
+              {cardProfileImage && (
+                <img
+                  className="w-[30px] h-[30px] object-cover rounded-full"
+                  src={imgUrl}
+                  alt=""
+                />
+              )}
+              <p className="text-sm font-semibold text-text">{name}</p>
             </div>
             <p className="taskcard__task-description text-text">
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores
@@ -109,15 +174,23 @@ function TaskCard() {
               rel="noreferrer"
             > */}
               {/* <a href="https://www.whatsapp.com/desktop/send?phone=+923336973497&test=hello ayyaz"> */}
-              Send
+              {button}
             </a>
           </div>
           {/* <AddTaskButton onClick={showAddTask}/> */}
-          <AddTask />
+          <AddTask
+            addNewButton={addNewButton}
+            newTaskProps={{ addButton, updateButton, isContactDetail }}
+          />
         </div>
       ) : (
         <div>
-          <EditTask onShowTaskCard={showTaskCard} />
+          {" "}
+          , ,
+          <EditTask
+            onShowTaskCard={showTaskCard}
+            newTaskProps={{ addButton, updateButton, isContactDetail }}
+          />
         </div>
       )}
     </div>

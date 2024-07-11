@@ -7,16 +7,14 @@ const useAxiosFunction = () => {
   const [controller, setController] = useState(0);
 
   const axiosFetch = async (configObj) => {
-    console.log(configObj);
     const { axiosInstance, method, url, requestConfig = {} } = configObj;
 
     try {
       setLoading(true);
       const ctrl = new AbortController();
       setController(ctrl);
-      // console.log(requrestConfig);
       const res = await axiosInstance[method.toLowerCase()](url, {
-        ...requestConfig,
+        requestConfig,
         signal: ctrl.signal,
       });
       console.log(res);
@@ -30,7 +28,7 @@ const useAxiosFunction = () => {
   };
 
   useEffect(() => {
-    console.log(controller);
+    // console.log(controller);
     //useEffect cleanup function
     // return () => controller.abort();
   }, [controller]); // runs only when the component mounts

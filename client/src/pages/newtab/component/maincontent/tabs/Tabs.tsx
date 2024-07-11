@@ -1,18 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
+import useFetch from "@src/hooks/useFetch";
+import tabsData from "@pages/newtab/component/maincontent/tabs/data.js";
 
-const Tabs = () => {
+const Tabs = ({ activeTab, setActiveTab }) => {
+  function handleTabChange(tabName) {
+    setActiveTab(tabName);
+  }
+
   return (
     <div>
       <nav className="inline-flex gap-4 text-sm text-text bg-secondary list-none p-1 mt-4 rounded-full">
-        <li className="bg-background hover:bg-hoverBackground px-4 py-2 rounded-full cursor-pointer">
-          Email
-        </li>
-        <li className="bg-background hover:bg-hoverBackground px-4 py-2 rounded-full cursor-pointer">
-          WhatsApp
-        </li>
-        <li className="bg-background hover:bg-hoverBackground px-4 py-2 rounded-full cursor-pointer">
-          Tasks
-        </li>
+        {tabsData.map((tab) => (
+          <li
+            onClick={() => handleTabChange(tab.name)}
+            key={tab.id}
+            className={`bg-background hover:bg-white hover:text-black ${
+              activeTab === tab.name ? "bg-white text-black" : ""
+            }  px-4 py-2 rounded-full cursor-pointer`}
+          >
+            {tab.name}
+          </li>
+        ))}
       </nav>
       lg
     </div>

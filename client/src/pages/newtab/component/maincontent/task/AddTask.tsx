@@ -4,8 +4,9 @@ import AddTaskButton from "@pages/newtab/component/maincontent/task/AddTaskButto
 
 import axios from "@src/apis/tasks";
 import useAxiosFunction from "@src/hooks/useAxiosFunction";
+import useGenerateUrl from "@src/hooks/useGenerateUrl";
 
-function AddTask({ isEditing, onShowTaskCard }) {
+function AddTask({ isEditing, onShowTaskCard, addNewButton, newTaskProps }) {
   const [showAddTask, setShowAddTask] = useState(false);
   const [editMode, setEditMode] = useState(false);
   // form inputs
@@ -14,16 +15,10 @@ function AddTask({ isEditing, onShowTaskCard }) {
   const [content, setContent] = useState("");
   const [contactDetail, setContactDetail] = useState("");
 
+  // const [generatedUrl, setGeneratedUrl] = useState("");
+
   const [tasks, error, loading, axiosFetch] = useAxiosFunction();
-
-  // const sendData = (formData) => {
-  //   axiosFetch({
-  //     axiosInstance: axios,
-  //     method: "POST",
-  //     url: "/api/addtask",
-  //   });
-  // };
-
+  const { generateUrl } = useGenerateUrl();
   // Hide add task
   function handleHideAddTask() {
     setShowAddTask(false);
@@ -40,6 +35,9 @@ function AddTask({ isEditing, onShowTaskCard }) {
   function handleSubmit(e: SyntheticEvent) {
     e.preventDefault();
     const target = e.target as HTMLFormElement;
+
+    const url = generateUrl(contactDetail, content, "whatsapp");
+
     const formData = {
       taskName,
       receiverName,
@@ -54,9 +52,6 @@ function AddTask({ isEditing, onShowTaskCard }) {
       requestConfig: formData,
     });
   }
-  // function sendData(formData) {
-  //   axios.post;
-  // }
 
   useEffect(() => {
     if (isEditing) {
@@ -67,7 +62,12 @@ function AddTask({ isEditing, onShowTaskCard }) {
 
   return (
     <div className="addtask">
-      {!isEditing && <AddTaskButton handleShowAddTask={handleShowAddTask} />}
+      {!isEditing && (
+        <AddTaskButton
+          handleShowAddTask={handleShowAddTask}
+          addNewButton={addNewButton}
+        />
+      )}
       {/* <AddTaskButton onClick={handleShowAddTask} /> */}
       {showAddTask && (
         <div className="addTask__insertcard task-item mt-4">
@@ -79,7 +79,6 @@ function AddTask({ isEditing, onShowTaskCard }) {
             <div className="addTask__inputcontainer w-full">
               <input
                 onChange={(e) => {
-                  // console.log(e.target.value);
                   setTaskName(e.target.value);
                 }}
                 className="addTask__textinput w-full text-sm bg-secondary border-none text-text px-2 py-3 rounded-md"
@@ -108,16 +107,18 @@ function AddTask({ isEditing, onShowTaskCard }) {
                 rows={4}
               ></textarea>
             </div>
-            <div className="addTask__inputcontainer">
-              <input
-                onChange={(e) => {
-                  setContactDetail(e.target.value);
-                }}
-                className="addTask__textinput w-full text-sm bg-secondary border-none text-text px-2 py-3 rounded-md"
-                type="text"
-                placeholder="Contact detail"
-              />
-            </div>
+            {newTaskProps.isContactDetail && (
+              <div className="addTask__inputcontainer">
+                <input
+                  onChange={(e) => {
+                    setContactDetail(e.target.value);
+                  }}
+                  className="addTask__textinput w-full text-sm bg-secondary border-none text-text px-2 py-3 rounded-md"
+                  type="text"
+                  placeholder="Contact detail"
+                />
+              </div>
+            )}
             <div className="taskcard__actionbtncontainer flex items-center">
               {/* {editMode && ( */}
               <X
@@ -128,7 +129,7 @@ function AddTask({ isEditing, onShowTaskCard }) {
               />
               {/* )} */}
               <button className="taskcard__actionbtn text-sm font-semibold bg-primary text-white text-center block w-lg py-2 px-6 rounded-md">
-                {editMode ? "Update Task" : "Add Task"}
+                {editMode ? newTaskProps.updateButton : newTaskProps.addButton}
               </button>
             </div>
           </form>

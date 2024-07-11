@@ -5,11 +5,11 @@ import logo from "@assets/img/logo.svg";
 import "@src/styles/app.css";
 import "@pages/newtab/Newtab.css";
 import Navbar from "@pages/newtab/component/Navbar";
-import TaskCard from "@pages/newtab/component/maincontent/task/TaskCard";
+
+import Tasks from "@pages/newtab/component/maincontent/task/Tasks";
 import QuoteCard from "@pages/newtab/component/maincontent/quotes/QuoteCard";
 import Quote from "@pages/newtab/component/maincontent/quotes/Quote";
 import Aside from "./component/aside/Aside";
-import Tabs from "./component/maincontent/tabs/Tabs";
 
 const Newtab = () => {
   return (
@@ -21,9 +21,8 @@ const Newtab = () => {
         <div className="w-full px-4 border-l border-secondary">
           <Navbar />
           <Quote />
-          <Tabs />
           <Routes>
-            <Route path="/" element={<TaskCard />} />
+            <Route path="/" element={<Tasks />} />
             <Route path="/quotes" element={<QuoteCard />} />
           </Routes>
         </div>

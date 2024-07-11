@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TaskCard from "@pages/newtab/component/maincontent/task/TaskCard";
 import Tabs from "@pages/newtab/component/maincontent/tabs/Tabs";
 import tabsData from "@pages/newtab/component/maincontent/tabs/data.js";
@@ -6,6 +6,10 @@ import taskCardData from "@pages/newtab/component/maincontent/task/data.js";
 
 const Task = () => {
   const [activeTab, setActiveTab] = useState(tabsData[0].name);
+
+  const [loading, setLoading] = useState(false);
+  const [tasks, setTasks] = useState([]);
+  const [fetchError, setFetchError] = useState(null);
 
   const filteredTaskCardData = taskCardData.filter((task) => {
     return task.id === activeTab;

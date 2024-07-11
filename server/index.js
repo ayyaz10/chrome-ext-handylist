@@ -66,14 +66,18 @@ app.get("/api/quotes", async (req, res) => {
   }
 });
 app.get("/api/tasks", async (req, res) => {
+  const type = req.query.type;
+
   try {
-    const tasks = await fetchTasks();
-    console.log(tasks);
-    if (!tasks) {
-      res.status(500).json({ error: "Failed to fetch quotes" });
-      return;
+    if (type === "whatsapp") {
+      tasks = await fetchTasks();
+      console.log(tasks);
+      if (!tasks) {
+        res.status(500).json({ error: "Failed to fetch quotes" });
+        return;
+      }
+      res.json(tasks);
     }
-    res.json(tasks);
   } catch (error) {
     console.error("Error handling request", error);
     res.status(500).json({ error: "Internal server error" });

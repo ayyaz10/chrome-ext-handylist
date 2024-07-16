@@ -1,4 +1,4 @@
-import React, { useState, useEffect, SyntheticEvent } from "react";
+import React, { useState, useEffect, useContext, SyntheticEvent } from "react";
 import { X } from "lucide-react";
 import AddTaskButton from "@pages/newtab/component/maincontent/task/AddTaskButton";
 
@@ -6,9 +6,19 @@ import axios from "@src/apis/tasks";
 import useAxiosFunction from "@src/hooks/useAxiosFunction";
 import useGenerateUrl from "@src/hooks/useGenerateUrl";
 
-function AddTask({ isEditing, onShowTaskCard, addNewButton, newTaskProps }) {
+import TaskContext from "@src/context/TaskContext";
+
+function AddTask({
+  isEditing,
+  onShowTaskCard,
+  addNewButton,
+  addButton,
+  updateButton,
+  isContactDetail,
+}) {
   const [showAddTask, setShowAddTask] = useState(false);
   const [editMode, setEditMode] = useState(false);
+
   // form inputs
   const [taskName, setTaskName] = useState("");
   const [receiverName, setReceiverName] = useState("");
@@ -19,6 +29,7 @@ function AddTask({ isEditing, onShowTaskCard, addNewButton, newTaskProps }) {
 
   const [tasks, error, loading, axiosFetch] = useAxiosFunction();
   const { generateUrl } = useGenerateUrl();
+
   // Hide add task
   function handleHideAddTask() {
     setShowAddTask(false);
@@ -107,7 +118,7 @@ function AddTask({ isEditing, onShowTaskCard, addNewButton, newTaskProps }) {
                 rows={4}
               ></textarea>
             </div>
-            {newTaskProps.isContactDetail && (
+            {isContactDetail && (
               <div className="addTask__inputcontainer">
                 <input
                   onChange={(e) => {
@@ -129,7 +140,7 @@ function AddTask({ isEditing, onShowTaskCard, addNewButton, newTaskProps }) {
               />
               {/* )} */}
               <button className="taskcard__actionbtn text-sm font-semibold bg-primary text-white text-center block w-lg py-2 px-6 rounded-md">
-                {editMode ? newTaskProps.updateButton : newTaskProps.addButton}
+                {editMode ? updateButton : addButton}
               </button>
             </div>
           </form>

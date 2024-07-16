@@ -5,8 +5,10 @@ import AddTask from "@pages/newtab/component/maincontent/task/AddTask";
 import EditTask from "@pages/newtab/component/maincontent/task/EditTask";
 
 function TaskCard({
+  id,
   cardTitle,
   name,
+  description,
   button,
   addNewButton,
   addButton,
@@ -14,21 +16,42 @@ function TaskCard({
   cardProfileImage,
   isContactDetail,
 }) {
+  console.log(id, cardTitle);
   const [menuShow, setMenuShow] = useState(false);
   const [editMenuShow, setEditMenuShow] = useState(false);
+  const [editTaskId, setEditTaskId] = useState(null); // State to manage which task is in edit mode
+
   const [loading, setLoading] = useState(false);
   const [tasks, setTasks] = useState([]);
   const [fetchError, setFetchError] = useState(null);
 
   const menuRef = useRef(null);
 
+  const baseUrl = `http://localhost:5000/api/tasks?type=${cardTitle.toLowerCase()}`;
   const imgUrl = `https://www.robohash.org/s?set=set2&size=100x100`;
 
-  const baseUrl = `http://localhost:5000/api/tasks?type=${cardTitle.toLowerCase()}`;
-  console.log(cardTitle.toLowerCase());
+  function handleShowMenu() {
+    setMenuShow(true);
+  }
+
+  function handleHideMenu() {
+    setMenuShow(true);
+  }
+  function showEditTask(taskId) {
+    console.log(taskId);
+    console.log(id);
+    if (taskId === id) {
+      setMenuShow(false);
+      setEditMenuShow(true);
+    }
+  }
+
+  function showTaskCard(data) {
+    setEditMenuShow(data);
+  }
 
   useEffect(() => {
-    setLoading(true);
+    setLoading(false);
     const fetchTasks = async () => {
       try {
         const response = await fetch(baseUrl, {
@@ -55,31 +78,8 @@ function TaskCard({
       }
     };
 
-    fetchTasks();
+    // fetchTasks();
   }, [baseUrl]);
-
-  useEffect(() => {
-    tasks.forEach((task) => {
-      console.log(task);
-    });
-  }, [tasks]);
-
-  function handleShowMenu() {
-    setMenuShow(true);
-  }
-
-  function handleHideMenu() {
-    setMenuShow(false);
-  }
-
-  function showEditTask() {
-    setMenuShow(false);
-    setEditMenuShow(true);
-  }
-
-  function showTaskCard(data) {
-    setEditMenuShow(data);
-  }
 
   useEffect(() => {
     function handleClickOutside(e) {
@@ -114,75 +114,68 @@ function TaskCard({
 
       {!editMenuShow ? (
         <>
-          {tasks.map((task) => (
-            <div key={task.id} className="taskcard flex flex-col max-w-[300px]">
-              <div className="flex flex-col p-4 rounded-md bg-secondary">
-                <header className="flex flex-col relative">
-                  <p className="text-sm font-semibold text-text">{cardTitle}</p>
-                  <div className="ml-auto absolute right-0">
-                    <Ellipsis
-                      className="cursor-pointer text-text"
-                      onClick={handleShowMenu}
-                    />
-                    {menuShow && (
-                      <div
-                        className="custom-card-menu-style absolute -right-44 top-0 text-text bg-secondary p-2 rounded-lg"
-                        ref={menuRef}
-                      >
-                        <header className="w-[250px] relative text-xs pb-2">
-                          <h2 className="text-center">List Actions</h2>
-                          <X
-                            onClick={handleHideMenu}
-                            className="absolute top-[0] right-0 w-[16px] h-[16px] cursor-pointer hover:bg-hoverBackground hover:rounded-sm"
-                          />
-                        </header>
-                        <div className="flex flex-col">
-                          <li
-                            className="text-xs font-semibold text-text cursor-pointer list-none hover:bg-hoverBackground rounded-sm py-1 px-1"
-                            onClick={showEditTask}
-                          >
-                            Edit
-                          </li>
-                          <li className="text-xs font-semibold text-text cursor-pointer list-none hover:bg-hoverBackground rounded-sm py-1 px-1">
-                            Delete
-                          </li>
-                        </div>
+          <div className="taskcard flex flex-col mb-2">
+            <div className="flex flex-col p-4 rounded-md bg-secondary">
+              <header className="flex flex-col relative">
+                <p className="text-sm font-semibold text-text">{cardTitle}</p>
+                <div className="ml-auto absolute right-0">
+                  <Ellipsis
+                    className="cursor-pointer text-text"
+                    onClick={handleShowMenu}
+                  />
+                  {menuShow && (
+                    <div
+                      className="custom-card-menu-style absolute -right-44 top-0 text-text bg-secondary p-2 rounded-lg"
+                      ref={menuRef}
+                    >
+                      <header className="w-[250px] relative text-xs pb-2">
+                        <h2 className="text-center">List Actions</h2>
+                        <X
+                          onClick={handleHideMenu}
+                          className="absolute top-[0] right-0 w-[16px] h-[16px] cursor-pointer hover:bg-hoverBackground hover:rounded-sm"
+                        />
+                      </header>
+                      <div className="flex flex-col">
+                        <li
+                          className="text-xs font-semibold text-text cursor-pointer list-none hover:bg-hoverBackground rounded-sm py-1 px-1"
+                          // onClick={showEditTask}
+                          onClick={() => showEditTask(id)}
+                        >
+                          Edit
+                        </li>
+                        <li className="text-xs font-semibold text-text cursor-pointer list-none hover:bg-hoverBackground rounded-sm py-1 px-1">
+                          Delete
+                        </li>
                       </div>
-                    )}
-                  </div>
-                </header>
-                <div className="taskcard__task-profile-container flex items-center gap-2 my-2">
-                  {cardProfileImage && (
-                    <img
-                      className="w-[30px] h-[30px] object-cover rounded-full"
-                      src={imgUrl}
-                      alt=""
-                    />
+                    </div>
                   )}
-                  <p className="text-sm font-semibold text-text">{name}</p>
                 </div>
-                <p className="taskcard__task-description text-text">
-                  Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                  Maiores voluptas minima debitis nesciunt ipsum asperiores
-                  expedita sint eos sapiente excepturi! Perferendis
-                  necessitatibus quaerat, id eveniet non accusantium in saepe
-                  ab.
+              </header>
+              <div className="taskcard__task-profile-container flex items-center gap-2 my-2">
+                {cardProfileImage && (
+                  <img
+                    className="w-[30px] h-[30px] object-cover rounded-full"
+                    src={imgUrl}
+                    alt=""
+                  />
+                )}
+                <p className="text-sm font-semibold text-text">
+                  {name || "heloworld"}'
                 </p>
-                <a
-                  className="taskcard__actionbtn self-end text-sm font-semibold bg-primary text-white text-center block w-lg mt-4 py-2 px-6 rounded-lg"
-                  href="mailto:ayyazahmad009@gmail.comtext=hello ayyaz"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {button}
-                </a>
               </div>
-              <AddTask
-                addNewButton={addNewButton}
-                newTaskProps={{ addButton, updateButton, isContactDetail }}
-              />
+              <p className="taskcard__task-description text-text">
+                {description}
+              </p>
+              <a
+                className="taskcard__actionbtn self-end text-sm font-semibold bg-primary text-white text-center block w-lg mt-4 py-2 px-6 rounded-lg"
+                href="mailto:ayyazahmad009@gmail.comtext=hello ayyaz"
+                target="_blank"
+                rel="noreferrer"
+              >
+                {button}
+              </a>
             </div>
-          ))}
+          </div>
         </>
       ) : (
         <div>

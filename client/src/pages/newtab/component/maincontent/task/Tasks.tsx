@@ -2,27 +2,53 @@ import React, { useState, useEffect } from "react";
 import TaskCard from "@pages/newtab/component/maincontent/task/TaskCard";
 import Tabs from "@pages/newtab/component/maincontent/tabs/Tabs";
 import tabsData from "@pages/newtab/component/maincontent/tabs/data.js";
-import taskCardData from "@pages/newtab/component/maincontent/task/data.js";
+import { taskCardUtilData } from "@pages/newtab/component/maincontent/task/data.js";
+import { taskCardWhatsAppData } from "@pages/newtab/component/maincontent/task/data.js";
+
+import TaskContextProvider from "@src/context/TaskContextProvider";
+import AddTask from "./AddTask";
+
+// context
+// import
 
 const Task = () => {
-  const [activeTab, setActiveTab] = useState(tabsData[0].name);
+  const [activeTab, setActiveTab] = useState<string>(tabsData[0].name);
 
-  const [loading, setLoading] = useState(false);
-  const [tasks, setTasks] = useState([]);
-  const [fetchError, setFetchError] = useState(null);
-
-  const filteredTaskCardData = taskCardData.filter((task) => {
-    return task.id === activeTab;
+  const filteredTaskCardUtilData = taskCardUtilData.filter((cardUtilData) => {
+    return cardUtilData.id === activeTab;
   });
+  const filteredTaskCardWhatsAppData = taskCardWhatsAppData.filter((data) => {
+    return data.cardTitle.toLowerCase() === activeTab.toLowerCase();
+  });
+  useEffect(() => {
+    // console.log(activeTab);
+    // console.log(filteredTaskCardUtilData[0]);
+    console.log(filteredTaskCardUtilData);
+  }, [activeTab, filteredTaskCardUtilData]);
 
   return (
-    <div>
+    <div className="max-w-[300px]">
       <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
-      {filteredTaskCardData.map((task) => (
-        <TaskCard key={task.id} {...task} />
+      {/* {filteredTaskCardWhatsAppData.cardTitle ===
+      filteredTaskCardUtilData[0] ? (
+        <TaskCard
+          {...filteredTaskCardUtilData[0]}
+          {...filteredTaskCardWhatsAppData}
+        />
+      ) : null} */}
+      {filteredTaskCardWhatsAppData.map((cards) => (
+        <TaskCard {...cards} {...filteredTaskCardUtilData[0]} />
       ))}
+
+      <AddTask {...filteredTaskCardUtilData[0]} />
     </div>
   );
 };
 
 export default Task;
+{
+  /* <AddTask
+addNewButton={addNewButton}
+newTaskProps={{ addButton, updateButton, isContactDetail }} */
+}
+// />

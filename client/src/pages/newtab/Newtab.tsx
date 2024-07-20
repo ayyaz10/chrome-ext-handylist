@@ -9,6 +9,8 @@ import Navbar from "@pages/newtab/component/Navbar";
 import Tasks from "@pages/newtab/component/maincontent/task/Tasks";
 import QuoteCard from "@pages/newtab/component/maincontent/quotes/QuoteCard";
 import Quote from "@pages/newtab/component/maincontent/quotes/Quote";
+import Finance from "@pages/newtab/component/maincontent/finance/Finance";
+
 import Aside from "./component/aside/Aside";
 
 const Newtab = () => {
@@ -24,6 +26,7 @@ const Newtab = () => {
           <Routes>
             <Route path="/" element={<Tasks />} />
             <Route path="/quotes" element={<QuoteCard />} />
+            <Route path="/finance" element={<Finance />} />
           </Routes>
         </div>
       </div>

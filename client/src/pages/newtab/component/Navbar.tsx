@@ -10,6 +10,9 @@ const Navbar = () => {
         <a href="#/quotes">
           <li className="list-none">Quotes</li>
         </a>
+        <a href="#/finance">
+          <li className="list-none">Finance</li>
+        </a>
       </nav>
     </div>
   );

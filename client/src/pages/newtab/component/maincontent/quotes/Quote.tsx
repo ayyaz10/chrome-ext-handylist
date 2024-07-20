@@ -2,7 +2,7 @@ import React from "react";
 
 const Quote = () => {
   return (
-    <div className="bg-secondary w-full p-8 rounded-md">
+    <div className="bg-secondary w-full p-8 rounded-md my-6">
       <h1 className="text-text">Hello world this is quote component</h1>
     </div>
   );

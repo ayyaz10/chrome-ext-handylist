@@ -92,7 +92,7 @@ function AddTask({
                 onChange={(e) => {
                   setTaskName(e.target.value);
                 }}
-                className="addTask__textinput w-full text-sm bg-secondary border-none text-text px-2 py-3 rounded-md"
+                className="addTask__textinput tw-input"
                 type="text"
                 placeholder="Task Name"
                 required
@@ -103,7 +103,7 @@ function AddTask({
                 onChange={(e) => {
                   setReceiverName(e.target.value);
                 }}
-                className="addTask__textinput w-full text-sm bg-secondary border-none text-text px-2 py-3 rounded-md"
+                className="addTask__textinput tw-input"
                 type="text"
                 placeholder="Receiver Name"
               />
@@ -113,7 +113,7 @@ function AddTask({
                 onChange={(e) => {
                   setContent(e.target.value);
                 }}
-                className="addTask__textinput w-full text-sm bg-secondary border-none text-text px-2 py-3 rounded-md"
+                className="addTask__textinput tw-input"
                 placeholder="Content"
                 rows={4}
               ></textarea>
@@ -124,7 +124,7 @@ function AddTask({
                   onChange={(e) => {
                     setContactDetail(e.target.value);
                   }}
-                  className="addTask__textinput w-full text-sm bg-secondary border-none text-text px-2 py-3 rounded-md"
+                  className="addTask__textinput tw-input"
                   type="text"
                   placeholder="Contact detail"
                 />
@@ -139,7 +139,7 @@ function AddTask({
                 onClick={handleHideAddTask}
               />
               {/* )} */}
-              <button className="taskcard__actionbtn text-sm font-semibold bg-primary text-white text-center block w-lg py-2 px-6 rounded-md">
+              <button className="taskcard__actionbtn tw-primary-btn">
                 {editMode ? updateButton : addButton}
               </button>
             </div>

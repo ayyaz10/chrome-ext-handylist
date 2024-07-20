@@ -20,15 +20,11 @@ const Task = () => {
   const filteredTaskCardWhatsAppData = taskCardWhatsAppData.filter((data) => {
     return data.cardTitle.toLowerCase() === activeTab.toLowerCase();
   });
-  useEffect(() => {
-    // console.log(activeTab);
-    // console.log(filteredTaskCardUtilData[0]);
-    console.log(filteredTaskCardUtilData);
-  }, [activeTab, filteredTaskCardUtilData]);
 
   return (
     <div className="max-w-[300px]">
       <Tabs activeTab={activeTab} setActiveTab={setActiveTab} />
+
       {/* {filteredTaskCardWhatsAppData.cardTitle ===
       filteredTaskCardUtilData[0] ? (
         <TaskCard
@@ -36,6 +32,7 @@ const Task = () => {
           {...filteredTaskCardWhatsAppData}
         />
       ) : null} */}
+
       {filteredTaskCardWhatsAppData.map((cards) => (
         <TaskCard {...cards} {...filteredTaskCardUtilData[0]} />
       ))}

@@ -2,6 +2,15 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer components {
+  .tw-input {
+    @apply w-full text-sm bg-secondary border-none text-text px-2 py-3 rounded-md;
+  }
+  .tw-primary-btn {
+    @apply text-sm font-semibold bg-primary text-white text-center block mt-4 py-2 px-6 rounded-lg;
+  }
+}
+
 .dark {
   --background: 0, 0, 0;
   --border: 122, 122, 122;

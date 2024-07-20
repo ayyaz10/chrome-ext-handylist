@@ -8,7 +8,7 @@ const Tabs = ({ activeTab, setActiveTab }) => {
   }
 
   return (
-    <div>
+    <div className="mb-4">
       <nav className="inline-flex gap-4 text-sm text-text bg-secondary list-none p-1 mt-4 rounded-full">
         {tabsData.map((tab) => (
           <li

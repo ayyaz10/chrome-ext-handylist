@@ -1,11 +1,14 @@
 import React, { useEffect, useState, useRef } from "react";
 import AddFund from "./AddFund";
+import moment from "moment";
 
 const FundYou = ({ showFunds, setshowFunds }) => {
+  let date = new Date();
   const [inputData, setinputData] = useState({
     amount: "",
     amountTitle: "",
   });
+
   const [isFocus, setisFocus] = useState(false);
   const [funds, setFunds] = useState([]);
   // const [totalFunds, settotalFunds] = useState(0);
@@ -36,9 +39,17 @@ const FundYou = ({ showFunds, setshowFunds }) => {
   };
   const submitFund = () => {
     if (inputData.amount === "" || inputData.amountTitle === "") return;
+    const currentDateTime = moment().format("YYYY-MM-DD HH:mm:ss");
+    // setinputData((prevData) => ({ ...prevData, date: currentDate }));
+    setFunds((prevFunds) => [
+      ...prevFunds,
+      { ...inputData, date: currentDateTime },
+    ]);
+    console.log(inputData);
+    console.log(funds);
     resetInput();
     setisFocus(true);
-    setFunds([...funds, inputData]);
+    // setFunds([...funds, inputData]);
     // calTotalFunds();
   };
 
@@ -92,6 +103,9 @@ const FundYou = ({ showFunds, setshowFunds }) => {
                 key={i}
                 className="flex w-full text-base p-4 border-b border-white"
               >
+                <span className="text-white">
+                  {moment(fund.date).format("dddd")}
+                </span>
                 <span>{fund.amountTitle}</span>{" "}
                 <span className="ml-auto">
                   Rs{formattedNumber(fund.amount)}

@@ -39,25 +39,43 @@ const FundYou = ({ showFunds, setshowFunds }) => {
   };
   const submitFund = () => {
     if (inputData.amount === "" || inputData.amountTitle === "") return;
-    const currentDateTime = moment().format("YYYY-MM-DD HH:mm:ss");
-    // setinputData((prevData) => ({ ...prevData, date: currentDate }));
-    setFunds((prevFunds) => [
-      ...prevFunds,
-      { ...inputData, date: currentDateTime },
-    ]);
-    console.log(inputData);
-    console.log(funds);
+    const currentDateTime = moment().format("YYYY-MM-DD");
+
+    setFunds((prevFunds) => {
+      const existingFundIndex = prevFunds.findIndex(
+        (fund) => fund.date === currentDateTime
+      );
+
+      if (existingFundIndex > -1) {
+        // If a fund with the current date exists, update its items array
+        const updatedFunds = [...prevFunds];
+        updatedFunds[existingFundIndex].items = [
+          ...updatedFunds[existingFundIndex].items,
+          { ...inputData },
+        ];
+        return updatedFunds;
+      } else {
+        // If no fund with the current date exists, add a new fund entry
+        return [
+          ...prevFunds,
+          {
+            date: currentDateTime,
+            items: [{ ...inputData }],
+          },
+        ];
+      }
+    });
+
     resetInput();
     setisFocus(true);
-    // setFunds([...funds, inputData]);
-    // calTotalFunds();
   };
 
-  const totalFunds = funds.reduce((a, b) => {
+  const totalFunds = funds[0]?.items.reduce((a, b) => {
     return a + Number(b.amount);
   }, 0);
 
   useEffect(() => {
+    console.log(funds);
     const handleKeyDown = (e) => {
       switch (e.key) {
         case "Enter":
@@ -80,9 +98,11 @@ const FundYou = ({ showFunds, setshowFunds }) => {
       //   submitFund();
       // }
     };
+    console.log(funds);
     window.addEventListener("keydown", handleKeyDown);
   }, [inputData, funds, isFocus]);
   const formattedNumber = (num) => {
+    console.log(num);
     return num.toLocaleString();
   };
 
@@ -92,7 +112,7 @@ const FundYou = ({ showFunds, setshowFunds }) => {
         {error && <p>{error}</p>}
         {totalFunds > 0 ? (
           <div className="flex text-base p-4 border border-secondary">
-            <span>Total</span>{" "}
+            <span>Total</span>
             <span className="ml-auto">Rs{formattedNumber(totalFunds)}</span>
           </div>
         ) : null}
@@ -101,15 +121,19 @@ const FundYou = ({ showFunds, setshowFunds }) => {
             funds.map((fund, i) => (
               <li
                 key={i}
-                className="flex w-full text-base p-4 border-b border-white"
+                className="flex flex-col w-full text-base p-4 border-b border-white"
               >
                 <span className="text-white">
-                  {moment(fund.date).format("dddd")}
+                  {moment(fund.date).format("dddd, YYYY-MM-DD")}
                 </span>
-                <span>{fund.amountTitle}</span>{" "}
-                <span className="ml-auto">
-                  Rs{formattedNumber(fund.amount)}
-                </span>
+                {fund.items.map((item, j) => (
+                  <div key={j} className="flex w-full">
+                    <span>{item.amountTitle}</span>
+                    <span className="ml-auto">
+                      Rs{formattedNumber(item.amount)}
+                    </span>
+                  </div>
+                ))}
               </li>
             ))}
         </ul>

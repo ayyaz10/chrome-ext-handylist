@@ -1,6 +1,6 @@
 import React from "react";
 
-const AddFund = ({ handleChange, inputData, submitFund, isFocus }) => {
+const AddFund = ({ handleChange, inputData, addFund, isFocus }) => {
   return (
     <div className="max-w-[300px] w-full ml-0 mb-4 md:mb-0 md:ml-auto">
       <div>
@@ -27,7 +27,7 @@ const AddFund = ({ handleChange, inputData, submitFund, isFocus }) => {
         />
       </div>
 
-      <button onClick={submitFund} className="tw-primary-btn ml-auto">
+      <button onClick={addFund} className="tw-primary-btn ml-auto">
         Submit
       </button>
     </div>

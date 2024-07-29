@@ -2,6 +2,8 @@ import React, { useEffect, useState, useRef } from "react";
 import AddFund from "./AddFund";
 import moment from "moment";
 
+import useFetch from "../../../../../../hooks/useFetch";
+
 const FundYou = ({ showFunds, setshowFunds }) => {
   let date = new Date();
   const [inputData, setinputData] = useState({
@@ -13,6 +15,8 @@ const FundYou = ({ showFunds, setshowFunds }) => {
   const [funds, setFunds] = useState([]);
   // const [totalFunds, settotalFunds] = useState(0);
   const [error, setError] = useState("");
+  const [currentData, setCurrentData] = useState([]);
+  const { data, loading, error: fetchError, fetchData } = useFetch(funds);
 
   const amountRef = useRef(null);
 
@@ -37,7 +41,8 @@ const FundYou = ({ showFunds, setshowFunds }) => {
       amountTitle: "",
     });
   };
-  const submitFund = () => {
+  const addFund = () => {
+    console.log("helo ");
     if (inputData.amount === "" || inputData.amountTitle === "") return;
     const currentDateTime = moment().format("YYYY-MM-DD");
 
@@ -45,10 +50,12 @@ const FundYou = ({ showFunds, setshowFunds }) => {
       const existingFundIndex = prevFunds.findIndex(
         (fund) => fund.date === currentDateTime
       );
+      console.log(existingFundIndex);
 
       if (existingFundIndex > -1) {
         // If a fund with the current date exists, update its items array
         const updatedFunds = [...prevFunds];
+        console.log(updatedFunds);
         updatedFunds[existingFundIndex].items = [
           ...updatedFunds[existingFundIndex].items,
           { ...inputData },
@@ -65,7 +72,11 @@ const FundYou = ({ showFunds, setshowFunds }) => {
         ];
       }
     });
-
+    // submitFunds();
+    // groupDataByDate();
+    const groupedData = groupBy(datas, "date");
+    console.log(groupedData);
+    setCurrentData(groupedData);
     resetInput();
     setisFocus(true);
   };
@@ -74,14 +85,55 @@ const FundYou = ({ showFunds, setshowFunds }) => {
     return a + Number(b.amount);
   }, 0);
 
+  async function submitFunds() {
+    try {
+      const data = await fetchData(
+        "http://localhost:5000/api/addFunds",
+        "PUT",
+        funds,
+        funds
+      );
+      console.log(data);
+    } catch (error) {
+      console.error("Error submitting funds:", error);
+      setError("Failed to submit funds. Please try again.");
+    }
+  }
+
+  // const datas = [
+  //   { date: "25th may", name: "ayyaz" },
+  //   { date: "25th may", name: "mufleh" },
+  //   { date: "25th may", name: "danial" },
+  //   { date: "26th may", name: "alia" },
+  // ];
+  // let previousDate = "";
+
+  // datas.forEach((data) => {
+  //   if (data.date !== previousDate) {
+  //     console.log("Date:", data.date);
+  //     previousDate = data.date;
+  //   }
+  //   console.log(data.name);
+  // });
+
+  // const groupBy = (array, key) => {
+  //   return array.reduce((result, currentValue) => {
+  //     (result[currentValue[key]] = result[currentValue[key]] || []).push(
+  //       currentValue
+  //     );
+  //     return result;
+  //   }, {});
+  // };
+
   useEffect(() => {
+    console.log(currentData);
     console.log(funds);
     const handleKeyDown = (e) => {
       switch (e.key) {
         case "Enter":
           setisFocus(false);
           setisFocus(true);
-          submitFund();
+          addFund();
           break;
         case "b":
           if (e.ctrlKey || e.metaKey) {
@@ -95,7 +147,7 @@ const FundYou = ({ showFunds, setshowFunds }) => {
           break;
       }
       // if (e.key === "Enter") {
-      //   submitFund();
+      //   addFund();
       // }
     };
     console.log(funds);
@@ -108,6 +160,18 @@ const FundYou = ({ showFunds, setshowFunds }) => {
 
   return (
     <div className="flex flex-col-reverse md:flex-row">
+      {/* <div>
+        {Object.entries(groupedData).map(([date, data]) => (
+          <div key={date}>
+            <h2>{date}</h2>
+            <ul>
+              {data.map((item, index) => (
+                <li key={index}>{item.name}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div> */}
       <div className="max-w-[300px] text-text w-full mr-4">
         {error && <p>{error}</p>}
         {totalFunds > 0 ? (
@@ -142,7 +206,7 @@ const FundYou = ({ showFunds, setshowFunds }) => {
         <AddFund
           handleChange={handleChange}
           inputData={inputData}
-          submitFund={submitFund}
+          addFund={addFund}
           isFocus={isFocus}
         />
       )}

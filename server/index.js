@@ -50,6 +50,24 @@ const insertTask = async (task) => {
     console.error("Error fetching quotes", error);
   }
 };
+const insertFund = async (fund) => {
+  console.log(fund);
+  try {
+    const { error } = await supabase
+      .from("fund_you")
+      .update({ funds_data: fund });
+    if (error) {
+      console.error("Error inserting fund", error);
+    } else {
+      return {
+        inserted: true,
+        msg: "Record has been inserted successfully",
+      };
+    }
+  } catch (error) {
+    console.error("Error fetching fund", error);
+  }
+};
 
 // Route to fetch quotes and send as JSON response
 app.get("/api/quotes", async (req, res) => {
@@ -83,7 +101,12 @@ app.get("/api/tasks", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-
+app.put("/api/addFunds", async (req, res) => {
+  console.log(req.body);
+  const response = await insertFund(req.body[0]);
+  console.log(response);
+  res.json({ success: "data received successfuly" });
+});
 app.post("/api/addtask", async (req, res) => {
   // console.log(req.body);
   const response = await insertTask(req.body.requestConfig);

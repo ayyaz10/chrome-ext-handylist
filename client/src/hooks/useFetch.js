@@ -1,12 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useCallback } from "react";
 
-function useFetch(url, method = "GET", body = null) {
+function useFetch(fundState) {
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchData = async () => {
+  const fetchData = useCallback(
+    async (url, method = "GET", body = null) => {
+      setLoading(true);
       try {
         const options = {
           method,
@@ -21,17 +22,18 @@ function useFetch(url, method = "GET", body = null) {
         }
         const data = await response.json();
         setData(data);
+        return data;
       } catch (err) {
         setError(err.message);
+        throw err;
       } finally {
         setLoading(false);
       }
-    };
+    },
+    [fundState]
+  );
 
-    fetchData();
-  }, [url, method, body]);
-
-  return { data, loading, error };
+  return { data, loading, error, fetchData };
 }
 
 export default useFetch;
